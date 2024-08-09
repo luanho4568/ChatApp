@@ -25,9 +25,7 @@ const registerService = async (data) => {
             username,
             password: hashPassword,
         });
-        delete user.password;
-        console.log(user);
-
+        user.password = undefined;
         return {
             msg: "User registered successfully",
             status: true,
@@ -41,4 +39,34 @@ const registerService = async (data) => {
     }
 };
 
-export { registerService };
+const loginService = async (data) => {
+    try {
+        const { username, password } = data;
+        const user = await User.findOne({ username });
+        if (!user) {
+            return {
+                msg: "Incorrect username or password",
+                status: false,
+            };
+        }
+        const isPasswordValid = await bcrypt.compare(password, user.password);
+        if (!isPasswordValid) {
+            return {
+                msg: "Incorrect username or password",
+                status: false,
+            };
+        }
+        user.password = undefined;
+        return {
+            msg: "User login successfully",
+            status: true,
+            user,
+        };
+    } catch (error) {
+        console.log(error);
+        return {
+            msg: "Error register service",
+        };
+    }
+};
+export { registerService, loginService };

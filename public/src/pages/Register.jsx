@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { toast, ToastContainer } from "react-toastify";
@@ -22,6 +22,12 @@ const Register = (props) => {
         confirmPassword: "",
     };
     const [values, setValues] = useState(defaultValues);
+
+    useEffect(() => {
+        if (localStorage.getItem("chat-app-user")) {
+            navigate("/");
+        }
+    }, []);
     const handleSubmit = async (e) => {
         e.preventDefault();
         const isValid = handleValidation();
@@ -38,8 +44,7 @@ const Register = (props) => {
                 toast.error(data.msg, toastOptions);
             }
             if (data.status === true) {
-                localStorage.setItem("chat-app-user", JSON.stringify(data.user));
-                navigate("/");
+                navigate("/login");
             }
         }
     };
