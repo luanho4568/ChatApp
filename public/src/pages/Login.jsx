@@ -21,7 +21,7 @@ const Login = (props) => {
     const [values, setValues] = useState(defaultValues);
 
     useEffect(() => {
-        if (localStorage.getItem("chat-app-user")) {
+        if (sessionStorage.getItem('chat-app-user')) {
             navigate("/");
         }
     }, []);
@@ -41,7 +41,7 @@ const Login = (props) => {
                 toast.error(data.msg, toastOptions);
             }
             if (data.status === true) {
-                localStorage.setItem("chat-app-user", JSON.stringify(data.user));
+                sessionStorage.setItem('chat-app-user', JSON.stringify(data.user));
                 navigate("/");
             }
         }

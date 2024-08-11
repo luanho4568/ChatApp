@@ -24,7 +24,7 @@ const Register = (props) => {
     const [values, setValues] = useState(defaultValues);
 
     useEffect(() => {
-        if (localStorage.getItem("chat-app-user")) {
+        if (sessionStorage.getItem('chat-app-user')) {
             navigate("/");
         }
     }, []);

@@ -69,4 +69,18 @@ const loginService = async (data) => {
         };
     }
 };
-export { registerService, loginService };
+const getAllUserService = async (userId) => {
+    try {
+        const users = await User.find({ _id: { $ne: userId } }).select(["email", "username", "avatarImage", "_id"]);
+        return {
+            msg: "Get All Users Successfully!!",
+            users,
+        };
+    } catch (error) {
+        console.log(error);
+        return {
+            msg: "Error register service",
+        };
+    }
+};
+export { registerService, loginService, getAllUserService };
